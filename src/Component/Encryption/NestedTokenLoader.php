@@ -42,16 +42,19 @@ class NestedTokenLoader
     }
 
     /**
+     * This method will try to load, decrypt and verify the token.
+     * In case of failure, an exception is thrown, otherwise returns the JWS and populates the $signature variable.
+     *
      * @param string   $token
      * @param JWKSet   $encryptionKeySet
      * @param JWKSet   $signatureKeySet
-     * @param int|null $signature
+     * @param int|null $recipient
      *
      * @throws \Exception
      *
      * @return JWS
      */
-    public function load(string $token, JWKSet $encryptionKeySet, JWKSet $signatureKeySet, ?int &$signature = null): JWS
+    public function load(string $token, JWKSet $encryptionKeySet, JWKSet $signatureKeySet, ?int &$recipient = null): JWS
     {
         $recipient = null;
         $jwe = $this->jweLoader->loadAndDecryptWithKeySet($token, $encryptionKeySet, $recipient);
